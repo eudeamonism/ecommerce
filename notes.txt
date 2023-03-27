@@ -1,5 +1,0 @@
-SETTING UP GIT AND BASH COMMANDS
-'cd client' --> access this folder
-'ls -la' -->shows all files
-'rm -rf .git' --> removes .git file, which is hidden
-

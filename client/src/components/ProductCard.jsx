@@ -38,6 +38,7 @@ const Rating = ({rating, numReviews}) => {
 	);
 };
 
+
 const ProductCard = ({ product }) => {
 	return (
 		<Stack
