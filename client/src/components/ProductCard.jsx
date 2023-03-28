@@ -75,7 +75,7 @@ const ProductCard = ({ product }) => {
 				</Link>
 			</Flex>
 			<Flex justifyContent='space-between' alignContent='center' py='2'>
-				<Rating rating={product.rating} numReviews={product.numReviews} />
+				<Rating rating={product.rating} numReviews={product.numberOfReviews} />
 			</Flex>
 			<Flex justify='space-between'>
 				<Box fontSize='2xl' color={useColorModeValue('gray.800, white')}>
