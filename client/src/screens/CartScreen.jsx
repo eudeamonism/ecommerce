@@ -31,7 +31,7 @@ export const CartScreen = () => {
 					<AlertTitle>Oops! We are sorry!</AlertTitle>
 					<AlertDescription>{error}</AlertDescription>
 				</Alert>
-			) : cart.length <= 0 ? (
+			) : (!cart || cart.length <= 0) ? (
 				<Alert status='warning'>
 					<AlertIcon />
 					<AlertTitle>Your cart is empty!</AlertTitle>
