@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { setLoading, setError, cartItemAdd } from '../slices/cart';
+import { setLoading, setError, cartItemAdd, cartItemRemoval } from '../slices/cart';
 
 export const addCartItem = (id, qty) => async (dispatch) => {
 	dispatch(setLoading(true));
@@ -13,10 +13,10 @@ export const addCartItem = (id, qty) => async (dispatch) => {
 			price: data.price,
 			stock: data.stock,
 			qty,
-        };
-        dispatch(cartItemAdd(itemToAdd))
-    } catch (error) {
-    dispatch(
+		};
+		dispatch(cartItemAdd(itemToAdd));
+	} catch (error) {
+		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
@@ -25,5 +25,10 @@ export const addCartItem = (id, qty) => async (dispatch) => {
 					: 'An unexpected error has occured. Please try again later.'
 			)
 		);
-    }
+	}
+};
+
+export const removeCartItem = (id) => async (dispatch) => {
+    dispatch(setLoading(true));
+    dispatch(cartItemRemoval(id))
 };

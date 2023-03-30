@@ -2,7 +2,7 @@ import { CloseButton, Flex, Select, useColorMode as mode, Stack, Image, Box, Tex
 
 import { useDispatch } from 'react-redux';
 
-import { addCartItem } from '../redux/actions/cartActions';
+import { addCartItem, removeCartItem } from '../redux/actions/cartActions';
 
 const CartItem = ({ cartItem }) => {
 	const { name, image, price, stock, qty, id } = cartItem;
@@ -37,8 +37,8 @@ const CartItem = ({ cartItem }) => {
 						</option>
 					))}
 				</Select>
-                <Text fontWeight='bold'>${price}</Text>
-                <CloseButton />
+				<Text fontWeight='bold'>${price}</Text>
+				<CloseButton onClick={() => dispatch(removeCartItem(id))} />
 			</Flex>
 		</Flex>
 	);
