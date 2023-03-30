@@ -6,6 +6,7 @@ export const initialState = {
 	products: [],
 	expressShipping: false,
 	subtotal: 0,
+	cart: [],
 };
 
 export const cartSlice = createSlice({
@@ -16,15 +17,15 @@ export const cartSlice = createSlice({
 			state.loading = true;
 		},
 		cartItemAdd: (state, { payload }) => {
-            const existingItem = state.cart.find((item) => item.id === payload.id);
+			const existingItem = state.cart.find((item) => item.id === payload.id);
 
-            if (existingItem) {
-            state.cart = state.cart.map((item) => item.id === existingItem.id ? payload : item)
-            } else {
-            state.cart = [...state.cart, payload]
-            }
-            state.loading = false;
-            state.error = null;
+			if (existingItem) {
+				state.cart = state.cart.map((item) => (item.id === existingItem.id ? payload : item));
+			} else {
+				state.cart = [...state.cart, payload];
+			}
+			state.loading = false;
+			state.error = null;
 		},
 		setError: (state, { payload }) => {
 			state.error = payload;

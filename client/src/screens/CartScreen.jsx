@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
+import CartItem from '../components/CartItem';
+import CartOrderSummary from '../components/CartOrderSummary';
 
 export const CartScreen = () => {
 	const linkColor = useColorModeValue('orange.500', 'orange.200');
@@ -31,7 +33,7 @@ export const CartScreen = () => {
 					<AlertTitle>Oops! We are sorry!</AlertTitle>
 					<AlertDescription>{error}</AlertDescription>
 				</Alert>
-			) : (!cart || cart.length <= 0) ? (
+			) : !cart || cart.length <= 0 ? (
 				<Alert status='warning'>
 					<AlertIcon />
 					<AlertTitle>Your cart is empty!</AlertTitle>
@@ -55,10 +57,14 @@ export const CartScreen = () => {
 							<Heading fontSize='2xl' fontWeight='extrabold'>
 								Shopping Cart
 							</Heading>
-							<Stack spacing='6'>{/* CartItem */}</Stack>
+							<Stack spacing='6'>
+								{cart.map((cartItem) => (
+									<CartItem key={cartItem.id} cartItem={cartItem} />
+								))}
+							</Stack>
 						</Stack>
 						<Flex direction='column' align='center' flex='1'>
-							{/* CartOrderSummary */}
+							<CartOrderSummary />
 							<HStack mt='6' fontWeight='semibold'>
 								<p>or</p>
 								<Link as={ReactLink} to='/products' color={linkColor}>
