@@ -10,6 +10,7 @@ import {
 	Stack,
 	useColorModeValue,
 	Text,
+	Center,
 } from '@chakra-ui/react';
 import { FaArrowRight, FaBroom } from 'react-icons/fa';
 import { Link as ReactLink } from 'react-router-dom';
@@ -62,13 +63,20 @@ const LandingScreen = () => (
 				/>
 			</Flex>
 		</Stack>
-		<Link
-			as={ReactLink}
-			color={useColorModeValue('orange.500', 'orange.300')}
-			fontWeight='light'
-			fontSize='lg'
-			to='/homepage'> Quote of the Day
-		</Link>
+		<Flex justifyContent='center' my='6'>
+			<Flex direction='column' alignItems='center' justifyContent='center'>
+				<Center>
+					<Link
+						as={ReactLink}
+						color={useColorModeValue('orange.500', 'orange.300')}
+						fontWeight='light'
+						fontSize='lg'
+						to='/homepage'>
+						Quote of the Day
+					</Link>
+				</Center>
+			</Flex>
+		</Flex>
 	</Box>
 );
 
