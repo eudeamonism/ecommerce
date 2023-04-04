@@ -8,6 +8,7 @@ import ProductsScreen from './screens/ProductsScreen';
 import ProductScreen from './screens/ProductScreen';
 import Footer from './components/Footer';
 import LandingScreen from './screens/LandingScreen';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
 	return (
@@ -15,19 +16,19 @@ function App() {
 			<Router>
 				<Navbar />
 				<main>
-                    <Routes>
-                        <Route path='/' element={<LandingScreen/> } />
-                        <Route path='/homepage' element={<HomePage/> } />
+					<Routes>
+						<Route path='/' element={<LandingScreen />} />
+						<Route path='/homepage' element={<HomePage />} />
 						<Route path='/products' element={<ProductsScreen />} />
 						<Route path='/product/:id' element={<ProductScreen />} />
 						<Route path='/cart' element={<CartScreen />} />
+						<Route path='/login' element={<LoginScreen />} />
 					</Routes>
-                </main>
-                <Footer />
+				</main>
+				<Footer />
 			</Router>
 		</ChakraProvider>
 	);
 }
-
 
 export default App;

@@ -74,20 +74,21 @@ const Navbar = () => {
 						alignSelf='center'
 						onClick={() => toggleColorMode()}
 					/>
-					<Button as={ReactLink} to='/login' p={2} fontSize='sm' fontWeight={400} variant='link'>
-						Sign In
-					</Button>
-					<Button
-						as={ReactLink}
-						to='/registration'
-						m={2}
-						display={{ base: 'none', md: 'inline-flex' }}
-						fontSize='sm'
-						fontWeight={600}
-						bg='orange.500'
-						_hover={{ bg: 'orange.400' }}>
-						Sign Up
-					</Button>
+					 <Button as={ReactLink} to='/login' p={2} fontSize='sm' fontWeight={400} variant='link'>
+                Sign In
+              </Button>
+              <Button
+                as={ReactLink}
+                to='/registration'
+                m={2}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize='sm'
+                fontWeight={600}
+                _hover={{ bg: 'orange.400' }}
+                bg='orange.500'
+                color='white'>
+                Sign Up
+              </Button>
 				</Flex>
 			</Flex>
 			{isOpen ? (
