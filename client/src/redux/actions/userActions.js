@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setLoading, userLogin, setError } from '../slices/user';
+import { setLoading, userLogin, setError, userLogout } from '../slices/user';
 
 export const login = (email, password) => async (dispatch) => {
 	dispatch(setLoading(true));
@@ -8,11 +8,11 @@ export const login = (email, password) => async (dispatch) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-        };
+		};
 
-        //if API successful, then data object is returned
-        const { data } = await axios.post('/api/users/login', { email, password }, config);
-        //Successful data object is dispatched and received as payload in slice, reducer userLogin
+		//if API successful, then data object is returned
+		const { data } = await axios.post('/api/users/login', { email, password }, config);
+		//Successful data object is dispatched and received as payload in slice, reducer userLogin
 		dispatch(userLogin(data));
 		localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
@@ -26,4 +26,9 @@ export const login = (email, password) => async (dispatch) => {
 			)
 		);
 	}
+};
+
+export const logout = () => (dispatch) => {
+	localStorage.removeItem('userInfo');
+	dispatch(userLogout());
 };

@@ -11,11 +11,20 @@ import {
 	Stack,
 	useColorModeValue,
 	useColorMode,
+	useToast,
+	Menu,
+	MenuButton,
+	MenuList,
+	MenuItem,
+	MenuDivider,
 } from '@chakra-ui/react';
-
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
-
-import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { logout } from '../redux/actions/userActions';
+import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { CgProfile } from 'react-icons/cg';
+import { MdLocalShipping, MdLogout } from 'react-icons/md';
 import { GiTechnoHeart } from 'react-icons/gi';
 
 const links = [
@@ -36,8 +45,20 @@ const NavLink = ({ path, children }) => (
 );
 
 const Navbar = () => {
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
+	const { userInfo } = user;
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const { colorMode, toggleColorMode } = useColorMode();
+	const [isHovering, setIsHovering] = useState(false);
+
+	const toast = useToast();
+
+	//handlers
+	const logoutHandler = () => {
+		dispatch(logout());
+		toast({ description: 'You have been logged out.', status: 'success', isClosable: true });
+	};
 
 	return (
 		<Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -49,9 +70,14 @@ const Navbar = () => {
 					onClick={isOpen ? onClose : onOpen}
 				/>
 				<HStack>
-					<Link as={ReactLink} to='/'>
+					<Link
+						as={ReactLink}
+						to='/'
+						style={{ textDecoration: 'none' }}
+						onMouseEnter={() => setIsHovering(true)}
+						onMouseLeave={() => setIsHovering(false)}>
 						<Flex alignItems='center'>
-							<Icon as={GiTechnoHeart} h={6} w={6} mr={2} color='orange.400' />
+							<Icon as={GiTechnoHeart} h={6} w={6} color={isHovering ? 'cyan.400' : 'orange.400'} />
 							<Text fontWeight='extrabold' color='gray.600'>
 								e-commerce
 							</Text>
@@ -67,28 +93,57 @@ const Navbar = () => {
 				</HStack>
 
 				<Flex alignItems='center'>
-					<Icon
-						cursor='pointer'
-						mr='3'
-						as={colorMode === 'light' ? MoonIcon : SunIcon}
-						alignSelf='center'
-						onClick={() => toggleColorMode()}
-					/>
-					 <Button as={ReactLink} to='/login' p={2} fontSize='sm' fontWeight={400} variant='link'>
-                Sign In
-              </Button>
-              <Button
-                as={ReactLink}
-                to='/registration'
-                m={2}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize='sm'
-                fontWeight={600}
-                _hover={{ bg: 'orange.400' }}
-                bg='orange.500'
-                color='white'>
-                Sign Up
-              </Button>
+					<NavLink>
+						<Icon
+							cursor='pointer'
+							mr='3'
+							as={colorMode === 'light' ? MoonIcon : SunIcon}
+							alignSelf='center'
+							onClick={() => toggleColorMode()}
+						/>
+					</NavLink>
+					{userInfo ? (
+						<>
+							<Menu>
+								<MenuButton px='4' py='2' transition='all 0.3s' as={Button}>
+									{userInfo.name} <ChevronDownIcon />
+								</MenuButton>
+								<MenuList>
+									<MenuItem as={ReactLink} to='/profile'>
+										<CgProfile />
+										<Text ml='2'>Profile</Text>
+									</MenuItem>
+									<MenuItem as={ReactLink} to='/your-orders'>
+										<MdLocalShipping />
+										<Text ml='2'>Your Orders</Text>
+									</MenuItem>
+									<MenuDivider />
+									<MenuItem onClick={logoutHandler}>
+										<MdLogout />
+										<Text ml='2'>Logout</Text>
+									</MenuItem>
+								</MenuList>
+							</Menu>
+						</>
+					) : (
+						<>
+							<Button as={ReactLink} to='/login' p={2} fontSize='sm' fontWeight={400} variant='link'>
+								Sign In
+							</Button>
+							<Button
+								as={ReactLink}
+								to='/registration'
+								m={2}
+								display={{ base: 'none', md: 'inline-flex' }}
+								fontSize='sm'
+								fontWeight={600}
+								_hover={{ bg: 'orange.400' }}
+								bg='orange.500'
+								color='white'>
+								Sign Up
+							</Button>
+						</>
+					)}
 				</Flex>
 			</Flex>
 			{isOpen ? (
@@ -99,7 +154,9 @@ const Navbar = () => {
 								{link.linkName}
 							</NavLink>
 						))}
-						<NavLink key='sign up' path='/registration'>Sign Up</NavLink>
+						<NavLink key='sign up' path='/registration'>
+							Sign Up
+						</NavLink>
 					</Stack>
 				</Box>
 			) : null}
