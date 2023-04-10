@@ -24,6 +24,7 @@ const loginUser = asyncHandler(async (req, res) => {
 			email: user.email,
 			isAdmin: user.isAdmin,
 			token: genToken(user._id),
+			createdAt: user.createdAt,
 		});
 	} else {
 		res.status(401);
@@ -79,10 +80,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 			token: genToken(updatedUser._id),
 			createdAt: updatedUser.createdAt,
 		});
-    } else {
-        res.status(404);
-        throw new Error('User not found')
-    }
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
 });
 
 //Routes
