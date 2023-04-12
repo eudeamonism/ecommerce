@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {setError, shippingAddressAdd} from '../slices/order'
+import { setError, shippingAddressAdd } from '../slices/order';
 
+//Need to know what is going on for the two variables below?
 export const setShippingAddress = (data) => (dispatch) => {
 	dispatch(shippingAddressAdd(data));
 };
@@ -9,9 +10,10 @@ export const setShippingError = (value) => (dispatch) => {
 	dispatch(setError(value));
 };
 
-export const createOrder = (order) => async (getState) => {
+export const createOrder = (order) => async (dispatch, getState) => {
 	const {
 		order: { shippingAddress },
+		user: { userInfo },
 	} = getState();
 
 	const preparedOrder = { ...order, shippingAddress };
