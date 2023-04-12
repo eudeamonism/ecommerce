@@ -40,7 +40,8 @@ const ProfileScreen = () => {
 	//We cannot just call userInfo because this is called to extract data and will cause an endless loop
 	useEffect(() => {
 		if (updateSuccess) {
-			toast({ description: 'Profile was saved', status: 'success', isClosable: true });
+            toast({ description: 'Profile was saved', status: 'success', isClosable: true });
+            dispatch(resetUpdateSuccess());
 		}
 	}, [toast, updateSuccess]);
 
@@ -59,7 +60,6 @@ const ProfileScreen = () => {
 					.oneOf([Yup.ref('password'), null], 'Passwords must match.'),
 			})}
 			onSubmit={(values) => {
-				dispatch(resetUpdateSuccess());
                 dispatch(updateProfile(userInfo._id, values.name, values.email, values.password));
 			}}>
 			{(formik) => (
@@ -69,8 +69,8 @@ const ProfileScreen = () => {
 					mx='auto'
 					px={{ base: '4', md: '8', lg: '12' }}
 					py={{ base: '6', md: '8', lg: '12' }}>
-					<Stack direction={{ base: 'column', lg: 'row' }} align={{ lg: 'flex-start' }}>
-						<Stack pr={{ base: '0', md: '10' }} flex='1.5' mb={{ base: '2xl', md: 'none' }}>
+					<Stack spacing='10' direction={{ base: 'column', lg: 'row' }} align={{ lg: 'flex-start' }}>
+						<Stack flex='1.5' mb={{ base: '2xl', md: 'none' }}>
 							<Heading fontSize='2xl' fontWeight='extrabold'>
 								Profile
 							</Heading>
@@ -102,7 +102,7 @@ const ProfileScreen = () => {
 										</FormControl>
 									</Stack>
 									<Stack spacing='6'>
-										<Button color='orange' size='lg' fontSize='md' isLoading={loading} type='submit'>
+										<Button colorScheme='orange' size='lg' fontSize='md' isLoading={loading} type='submit'>
 											Save
 										</Button>
 									</Stack>

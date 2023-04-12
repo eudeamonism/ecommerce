@@ -24,14 +24,28 @@ import { Link as ReactLink } from 'react-router-dom';
 import { logout } from '../redux/actions/userActions';
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { CgProfile } from 'react-icons/cg';
+import { FiShoppingCart } from 'react-icons/fi';
 import { MdLocalShipping, MdLogout } from 'react-icons/md';
 import { GiTechnoHeart } from 'react-icons/gi';
 
+const ShoppingCartIcon = () => {
+	const cartInfo = useSelector((state) => state.cart);
+	const { cart } = cartInfo;
+	return (
+		<Flex>
+			<Text as='sub' fontSize='xs'>
+				{cart.length}
+			</Text>
+			<Icon ml ='-1' as={FiShoppingCart} h='4' w='7' alignSelf='center'/>
+			Cart
+		</Flex>
+	);
+};
+
 const links = [
 	{ linkName: 'Products', path: '/products' },
-	{ linkName: 'ShoppingCart', path: '/cart' },
+	{ linkName: <ShoppingCartIcon />, path: '/cart' },
 ];
-
 const NavLink = ({ path, children }) => (
 	<Link
 		as={ReactLink}
