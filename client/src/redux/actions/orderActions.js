@@ -29,7 +29,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch(
 			setError(
-				error.response && error.response.data
+				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
 					? error.message
