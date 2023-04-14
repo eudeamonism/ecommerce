@@ -13,6 +13,8 @@ import RegistrationScreen from './screens/RegistrationScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import CheckoutScreen from './screens/CheckoutScreen';
 
+
+
 function App() {
 	return (
 		<ChakraProvider>

@@ -2,8 +2,7 @@ import { Box, Heading, Stack, Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import CheckoutOrderSummary from '../components/CheckoutOrderSummary';
-/* import ShippingInformation from '../components/'; */
-
+import ShippingInformation from '../components/ShippingInformation'
 const CheckoutScreen = () => {
 	const user = useSelector((state) => state.user);
 	const { userInfo } = user;
@@ -22,7 +21,7 @@ const CheckoutScreen = () => {
 						Shipping Information
 					</Heading>
 					<Stack spacing='6'>
-						{/* <ShippingInformation /> */}
+						<ShippingInformation />
 					</Stack>
 				</Stack>
 				<Flex direction='column' align='center' flex='1'>
