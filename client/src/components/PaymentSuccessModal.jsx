@@ -1,11 +1,10 @@
 import {
 	Modal,
 	ModalOverlay,
-    ModalBody,
-    ModalContent,
+	ModalBody,
+	ModalContent,
 	Button,
 	Alert,
-	AlertDescription,
 	AlertTitle,
 	AlertIcon,
 	Wrap,
@@ -48,7 +47,7 @@ const PaymentSuccessModal = ({ isOpen, onClose }) => {
 								<AlertTitle pt='8px' fontSize='xl'>
 									Payment Successful!
 								</AlertTitle>
-								<AlertDescription>From here, you can go to:</AlertDescription>
+
 								<Stack mt='20px' minW='200px'>
 									<Button colorScheme='teal' variant='outline' as={ReactLink} to='/your-orders'>
 										Your Order

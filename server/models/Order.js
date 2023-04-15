@@ -32,18 +32,35 @@ const orderSchema = new mongoose.Schema(
 			postalCode: { type: String, required: true },
 			country: { type: String, required: true },
 		},
-		paymentMethod: { type: String, required: true, default: false },
-		paymentDetails: {
-			orderId: { type: String, required: true },
-			payerId: { type: String, required: true },
+		paymentMethod: {
+			type: String,
+			default: false,
 		},
-		shippingPrice: { type: Number, required: true, default: 0.0 },
-		totalPrice: { type: Number, required: true, default: 0.0 },
-		paidAt: { type: Date },
-		isDelivered: { type: Boolean, required: true, default: false },
-		deliveredAt: { type: Date },
+		paymentDetails: {
+			orderId: { type: String },
+			payerId: { type: String },
+		},
+		shippingPrice: {
+			type: Number,
+			default: 0.0,
+		},
+		totalPrice: {
+			type: Number,
+			default: 0.0,
+		},
+		paidAt: {
+			type: Date,
+		},
+		isDelivered: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
+		deliveredAt: {
+			type: Date,
+		},
 	},
-	{ timeStamps: true }
+	{ timestamps: true }
 );
 
 const Order = mongoose.model('Order', orderSchema);
