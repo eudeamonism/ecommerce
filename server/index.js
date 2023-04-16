@@ -1,3 +1,4 @@
+import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import connectToDatabase from './database.js';
 import express from 'express';
@@ -10,9 +11,14 @@ import orderRoutes from './routes/orderRoutes.js';
 dotenv.config();
 connectToDatabase();
 const app = express();
-
+const limiter = rateLimit({
+	max: 150,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP. Please try again in an hour!'
+});
+//Global Middleware
 app.use(express.json());
-
+app.use('/api', limiter)
 const port = process.env.PORT || 5000;
 
 //Initializing routes and endpoints
