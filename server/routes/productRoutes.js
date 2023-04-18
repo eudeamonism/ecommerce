@@ -2,6 +2,7 @@ import express from 'express';
 import Product from '../models/Product.js';
 import asyncHandler from 'express-async-handler';
 import User from '../models/User.js';
+import protectRoute from '../middleware/authMiddleware.js';
 
 const productRoutes = express.Router();
 
@@ -44,10 +45,22 @@ const createProductReview = asyncHandler(async (req, res) => {
 			title,
 			user: user._id,
 		};
+
+		product.reviews.push(review);
+
+		product.numberOfReviews = product.reviews.length;
+		product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+
+		await product.save();
+		res.status(201).json({ message: 'Review has been saved.' });
+	} else {
+		res.status(404);
+		throw new Error('Product not found.');
 	}
 });
 
 productRoutes.route('/').get(getProducts);
 productRoutes.route('/:id').get(getProduct);
+productRoutes.route('/reviews/:id').post(protectRoute, createProductReview);
 
 export default productRoutes;
