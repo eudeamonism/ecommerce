@@ -34,7 +34,7 @@ const LoginScreen = () => {
 	const toast = useToast();
 
 	const user = useSelector((state) => state.user);
-	const { loading, error, userInfo } = user;
+	const { loading, error, userInfo, updateSuccess } = user;
 
 	const headingBR = useBreakpointValue({ base: 'xs', md: 'sm' });
 	const boxBR = useBreakpointValue({ base: 'transparent', md: 'bg-surface' });
@@ -45,13 +45,16 @@ const LoginScreen = () => {
 				navigate(location.state.from);
 			} else {
 				navigate(redirect);
+				toast({ description: 'Login successful.', status: 'success', isClosable: true });
 			}
-			toast({ description: 'Login successful.', status: 'success', isClosable: true });
 		} else if (error) {
-			toast({ description: 'There was an error during the login process. Please try again later.', status: 'error', isClosable: true });
+			toast({
+				description: 'There was an error during the login process. Please try again later.',
+				status: 'error',
+				isClosable: true,
+			});
 		}
-	}, [userInfo, redirect, error, navigate, location.state, toast]);
-
+	}, [userInfo, redirect, error, navigate, location.state, toast, updateSuccess]);
 
 	return (
 		<Formik
