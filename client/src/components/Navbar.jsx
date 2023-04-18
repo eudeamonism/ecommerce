@@ -25,7 +25,7 @@ import { logout } from '../redux/actions/userActions';
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { CgProfile } from 'react-icons/cg';
 import { FiShoppingCart } from 'react-icons/fi';
-import { MdLocalShipping, MdLogout } from 'react-icons/md';
+import { MdLocalShipping, MdLogout, MdOutlineAdminPanelSettings } from 'react-icons/md';
 import { GiTechnoHeart } from 'react-icons/gi';
 
 const ShoppingCartIcon = () => {
@@ -36,7 +36,7 @@ const ShoppingCartIcon = () => {
 			<Text as='sub' fontSize='xs'>
 				{cart.length}
 			</Text>
-			<Icon ml ='-1' as={FiShoppingCart} h='4' w='7' alignSelf='center'/>
+			<Icon ml='-1' as={FiShoppingCart} h='4' w='7' alignSelf='center' />
 			Cart
 		</Flex>
 	);
@@ -131,6 +131,15 @@ const Navbar = () => {
 										<MdLocalShipping />
 										<Text ml='2'>Your Orders</Text>
 									</MenuItem>
+									{userInfo.isAdmin === "true" && (
+										<>
+											<MenuDivider />
+											<MenuItem as={ReactLink} to='/admin-console'>
+												<MdOutlineAdminPanelSettings />
+												<Text ml='2'>Admin Console</Text>
+											</MenuItem>
+										</>
+									)}
 									<MenuDivider />
 									<MenuItem onClick={logoutHandler}>
 										<MdLogout />
