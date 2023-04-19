@@ -24,7 +24,7 @@ export const orderSlice = createSlice({
 		},
 		clearOrder: (state) => {
 			state = initialState;
-		},
+        },
 	},
 });
 
