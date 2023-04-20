@@ -2,7 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import { CartScreen } from './screens/CartScreen';
+import CartScreen from './screens/CartScreen.jsx';
 import HomePage from './screens/HomePage';
 import ProductsScreen from './screens/ProductsScreen';
 import ProductScreen from './screens/ProductScreen';

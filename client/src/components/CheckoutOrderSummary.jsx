@@ -8,45 +8,42 @@ import {
 	Box,
 	Link,
 	Divider,
-	useDisclosure,
+	useToast,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
 import { PhoneIcon, EmailIcon, ChatIcon } from '@chakra-ui/icons';
 import { createOrder, resetOrder } from '../redux/actions/orderActions';
-import { resetCart } from '../redux/actions/cartActions';
 import { useEffect, useState, useCallback } from 'react';
 import CheckoutItem from './CheckoutItem';
-import PayPalButton from '../components/PayPalButton';
-import PaymentSuccessModal from './PaymentSuccessModal';
-import PaymentErrorModal from './PaymentErrorModal';
+import PayPalButton from './PayPalButton';
+
+import { resetCart } from '../redux/actions/cartActions';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutOrderSummary = () => {
-	const { isOpen: isErrorOpen, onClose: onErrorClose, onOpen: onErrorOpen } = useDisclosure();
-	const { isOpen: isSuccessOpen, onClose: onSuccessClose, onOpen: onSuccessOpen } = useDisclosure();
 	const colorMode = mode('gray.600', 'gray.400');
-
 	const cartItems = useSelector((state) => state.cart);
 	const { cart, subtotal, expressShipping } = cartItems;
-
 	const user = useSelector((state) => state.user);
 	const { userInfo } = user;
-
 	const shippingInfo = useSelector((state) => state.order);
 	const { error, shippingAddress } = shippingInfo;
-
 	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const toast = useToast();
 
 	const shipping = useCallback(
 		() => (expressShipping === 'true' ? 14.99 : subtotal <= 1000 ? 4.99 : 0),
 		[expressShipping, subtotal]
 	);
+
 	const total = useCallback(
 		() => Number(shipping() === 0 ? Number(subtotal) : Number(subtotal) + shipping()).toFixed(2),
 		[shipping, subtotal]
 	);
-	//Whenever the user changes something
+
 	useEffect(() => {
 		if (!error) {
 			setButtonDisabled(false);
@@ -55,9 +52,7 @@ const CheckoutOrderSummary = () => {
 		}
 	}, [error, shippingAddress, total, expressShipping, shipping, dispatch]);
 
-	//This function passes actionFunction that triggers controller in server
 	const onPaymentSuccess = async (data) => {
-		onSuccessOpen();
 		dispatch(
 			createOrder({
 				orderItems: cart,
@@ -71,18 +66,27 @@ const CheckoutOrderSummary = () => {
 		);
 		dispatch(resetOrder());
 		dispatch(resetCart());
+		navigate('/order-success');
 	};
 
-	const onPaymentError = () => {
-		onErrorOpen();
+	const onPaymentError = (error) => {
+		toast({
+			description:
+				'Something went wrong during the payment process. Please try again or make sure that your PayPal account balance is enough for this purchase.',
+			status: 'error',
+
+			duration: '600000',
+			isClosable: true,
+		});
 	};
 
 	return (
 		<Stack spacing='8' rounded='xl' padding='8' width='full'>
 			<Heading size='md'>Order Summary</Heading>
 			{cart.map((item) => (
-				<CheckoutItem cartItems={item} key={item.id} />
+				<CheckoutItem key={item.id} cartItem={item} />
 			))}
+
 			<Stack spacing='6'>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={colorMode}>
@@ -106,6 +110,7 @@ const CheckoutOrderSummary = () => {
 						)}
 					</Text>
 				</Flex>
+
 				<Flex justify='space-between'>
 					<Text fontSize='lg' fontWeight='semibold'>
 						Total
@@ -122,7 +127,7 @@ const CheckoutOrderSummary = () => {
 				disabled={buttonDisabled}
 			/>
 			<Box align='center'>
-				<Text fontSize='sm'></Text>Have questions? or need help to complete your order?
+				<Text fontSize='sm'>Have questions? or need help to complete your order?</Text>
 				<Flex justifyContent='center' color={mode('orange.500', 'orange.100')}>
 					<Flex align='center'>
 						<ChatIcon />
@@ -145,8 +150,6 @@ const CheckoutOrderSummary = () => {
 					Continue Shopping
 				</Link>
 			</Flex>
-			<PaymentErrorModal onClose={onErrorClose} onOpen={onErrorOpen} isOpen={isErrorOpen} />
-			<PaymentSuccessModal onClose={onSuccessClose} onOpen={onSuccessOpen} isOpen={isSuccessOpen} />
 		</Stack>
 	);
 };

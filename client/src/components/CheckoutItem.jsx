@@ -2,10 +2,9 @@ import { Flex, Select, useColorModeValue as mode, Image, Box, Text, Spacer, Divi
 import { useDispatch } from 'react-redux';
 import { addCartItem } from '../redux/actions/cartActions';
 
-const CheckoutItem = ({ cartItems }) => {
-	const { name, image, price, stock, qty, id } = cartItems;
+const CheckoutItem = ({ cartItem }) => {
+	const { name, image, price, stock, qty, id } = cartItem;
 	const dispatch = useDispatch();
-
 	return (
 		<>
 			<Flex>

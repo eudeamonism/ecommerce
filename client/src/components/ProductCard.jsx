@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-
 import {
 	Flex,
-	Box,
 	Circle,
+	Box,
 	Image,
 	Badge,
 	useColorModeValue,
@@ -16,12 +14,10 @@ import {
 	Text,
 	useToast,
 } from '@chakra-ui/react';
-
 import { FiShoppingCart } from 'react-icons/fi';
-
 import { Link as ReactLink } from 'react-router-dom';
 import { StarIcon } from '@chakra-ui/icons';
-
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem } from '../redux/actions/cartActions';
 
@@ -46,12 +42,11 @@ const Rating = ({ rating, numberOfReviews }) => {
 const ProductCard = ({ product }) => {
 	const dispatch = useDispatch();
 	const toast = useToast();
-
 	const cartInfo = useSelector((state) => state.cart);
 	const { cart } = cartInfo;
 
 	const addItem = (id) => {
-		if (cart && cart.some((cartItem) => cartItem.id === id)) {
+		if (cart.some((cartItem) => cartItem.id === id)) {
 			toast({
 				description: 'This item is already in your cart. Go to your cart to change the amount.',
 				status: 'error',
@@ -59,9 +54,10 @@ const ProductCard = ({ product }) => {
 			});
 		} else {
 			dispatch(addCartItem(id, 1));
-			 toast({ description: 'Item has been added.', status: 'success', isClosable: true });
+			toast({ description: 'Item has been added.', status: 'success', isClosable: true });
 		}
 	};
+
 	return (
 		<Stack
 			p='2'
@@ -80,7 +76,7 @@ const ProductCard = ({ product }) => {
 			<Box flex='1' maxH='5' alignItems='baseline'>
 				{product.stock <= 0 && (
 					<Badge rounded='full' px='2' fontSize='0.8em' colorScheme='red'>
-						Sold Out
+						Sold out
 					</Badge>
 				)}
 				{product.productIsNew && (
@@ -89,7 +85,6 @@ const ProductCard = ({ product }) => {
 					</Badge>
 				)}
 			</Box>
-
 			<Flex mt='1' justifyContent='space-between' alignContent='center'>
 				<Link as={ReactLink} to={`/product/${product._id}`} pt='2' cursor='pointer'>
 					<Box fontSize='2xl' fontWeight='semibold' as='h4' lineHeight='tight'>

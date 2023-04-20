@@ -6,7 +6,7 @@ import { Link as ReactLink, useNavigate } from 'react-router-dom';
 
 const CartOrderSummary = () => {
 	const [buttonLoading, setButtonLoading] = useState();
-	const standardShipping = Number(4.99).toFixed(2);
+	const standardShipping = 4.99;
 	const cartItems = useSelector((state) => state.cart);
 	const { subtotal } = cartItems;
 	const navigate = useNavigate();
@@ -18,7 +18,7 @@ const CartOrderSummary = () => {
 
 	return (
 		<Stack spacing='8' borderWidth='1px' rounded='lg' padding='8' w='full'>
-				<Heading size='md'>Order Summary</Heading>
+			<Heading size='md'>Order Summary</Heading>
 			<Stack spacing='6'>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
@@ -45,7 +45,7 @@ const CartOrderSummary = () => {
 						Total
 					</Text>
 					<Text fontSize='xl' fontWeight='extrabold'>
-						$ {subtotal <= 1000 ? Number(subtotal) + Number(standardShipping) : subtotal}
+						${subtotal <= 1000 ? (Number(subtotal) + Number(standardShipping)).toFixed(2) : Number(subtotal).toFixed(2)}
 					</Text>
 				</Flex>
 			</Stack>

@@ -36,11 +36,7 @@ const AddNewProduct = () => {
 			<Td>
 				<Text fontSize='sm'>Image File Name</Text>
 				<Tooltip label={'Set the name of your image e.g., iPhone.jpg'} fontSize='sm'>
-					<Input
-						size='sm'
-						value={image}
-						onChange={(e) => setImage(e.target.value)}
-						placeholder='e.g., iPhone.jpg'></Input>
+					<Input size='sm' value={image} onChange={(e) => setImage(e.target.value)} placeholder='e.g., iPhone.jpg' />
 				</Tooltip>
 			</Td>
 			<Td>
