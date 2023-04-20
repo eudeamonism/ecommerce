@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
+
+
 import connectToDatabase from './database.js';
 import express from 'express';
 import path from 'path';
@@ -10,30 +10,17 @@ import path from 'path';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
-import mongoSanitize from 'express-mongo-sanitize';
-import xss from 'xss-clean';
-import hpp from 'hpp';
 
 connectToDatabase();
 const app = express();
-const limiter = rateLimit({
-	max: 150,
-	windowMs: 60 * 60 * 1000,
-	message: 'Too many requests from this IP. Please try again in an hour!',
-});
+
 //Global Middleware
-app.use(mongoSanitize());
-app.use(xss());
-app.use('/api', limiter);
-app.use(helmet());
-app.use(hpp());
 app.use(express.json());
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
 	res.setHeader('Content-Security-Policy', "default-src 'self'; connect-src 'self' https://www.paypal.com");
 	next();
-});
-
+}); */
 
 //Initializing routes and endpoints
 app.use('/api/products', productRoutes);
