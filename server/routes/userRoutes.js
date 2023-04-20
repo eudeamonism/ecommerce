@@ -28,7 +28,8 @@ const loginUser = asyncHandler(async (req, res) => {
 			createdAt: user.createdAt,
 		});
 	} else {
-		res.status(401).json('Invalid email or password');
+		res.status(401).send('Invalid Email or Password');
+		throw new Error('User not found.');
 	}
 });
 
@@ -37,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	const userExists = await User.findOne({ email });
 	if (userExists) {
-		res.status(400).json('We already have an account with that email address.');
+		res.status(400).send('We already have an account with that email address.');
 	}
 
 	const user = await User.create({
@@ -53,9 +54,10 @@ const registerUser = asyncHandler(async (req, res) => {
 			email: user.email,
 			isAdmin: user.isAdmin,
 			token: genToken(user._id),
+			createdAt: user.createdAt,
 		});
 	} else {
-		res.json(400).json('Invalid user data.');
+		res.status(400).send('We could not register you.');
 	}
 });
 
@@ -99,7 +101,7 @@ const getUsers = asyncHandler(async (req, res) => {
 	res.json(users);
 });
 
-const deleteUsers = asyncHandler(async (req, res) => {
+const deleteUser = asyncHandler(async (req, res) => {
 	try {
 		const user = await User.findByIdAndRemove(req.params.id);
 		res.json(user);
@@ -115,6 +117,6 @@ userRoutes.route('/register').post(registerUser);
 userRoutes.route('/profile/:id').put(protectRoute, updateUserProfile);
 userRoutes.route('/:id').get(protectRoute, getUserOrders);
 userRoutes.route('/').get(protectRoute, admin, getUsers);
-userRoutes.route('/:id').delete(protectRoute, admin, deleteUsers);
+userRoutes.route('/:id').delete(protectRoute, admin, deleteUser);
 
 export default userRoutes;
