@@ -29,6 +29,12 @@ app.use(helmet());
 app.use(hpp());
 app.use(express.json());
 
+app.use((req, res, next) => {
+	res.setHeader('Content-Security-Policy', "default-src 'self'; connect-src 'self' https://www.paypal.com");
+	next();
+});
+
+
 //Initializing routes and endpoints
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
